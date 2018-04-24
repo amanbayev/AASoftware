@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Menu, Container } from 'semantic-ui-react'
+import { Menu, Container, Button } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 class TopMenu extends Component {
@@ -21,6 +21,7 @@ class TopMenu extends Component {
     return (
       <Menu>
         <Container>
+          <Menu.Item header>AASoftware</Menu.Item>
           <Menu.Item
             name="/"
             active={activeItem === '/'}
@@ -39,6 +40,15 @@ class TopMenu extends Component {
             content="Клиенты"
             onClick={this.handleMenuItemClick}
           />
+          <Menu.Menu position="right">
+            <Menu.Item
+              name="/profile"
+              active={activeItem === '/profile'}
+              content="Профиль"
+              onClick={this.handleMenuItemClick}
+            />
+            <Menu.Item content="Выход" onClick={e => Meteor.logout()} />
+          </Menu.Menu>
         </Container>
       </Menu>
     )

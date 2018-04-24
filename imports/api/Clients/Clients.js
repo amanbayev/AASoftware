@@ -35,18 +35,22 @@ Clients.schema = new SimpleSchema({
     }
   },
   number: {
+    required: true,
     type: String,
     label: 'Number of the client.'
   },
   lastname: {
+    required: true,
     type: String,
     label: 'lastname of the client.'
   },
   firstname: {
+    required: true,
     type: String,
     label: 'Firstname of the client.'
   },
   patronimic: {
+    required: true,
     type: String,
     label: 'patronimic of the client.'
   },
@@ -55,8 +59,24 @@ Clients.schema = new SimpleSchema({
     label: 'Email of the client.'
   },
   phone: {
+    required: true,
     type: String,
     label: 'Phone number of the client'
+  },
+  iin: {
+    required: true,
+    type: String,
+    label: 'IIN'
+  },
+  sex: {
+    required: true,
+    type: String,
+    label: 'Sex'
+  },
+  dob: {
+    type: Date,
+    required: true,
+    label: 'Date of birth'
   }
 })
 

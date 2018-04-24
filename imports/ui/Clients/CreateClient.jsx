@@ -7,6 +7,7 @@ import {
   Button,
   Breadcrumb
 } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 import { Bert } from 'meteor/themeteorchef:bert'
 
 const options = [
@@ -26,6 +27,7 @@ class CreateClient extends Component {
       sex: 'male',
       dob: '',
       notes: '',
+      email: '',
       referrealSource: 'noanswer'
     }
   }
@@ -36,8 +38,15 @@ class CreateClient extends Component {
   handleSexChange = (e, { value }) => this.setState({ sex: value })
 
   handleSave = e => {
-    console.log(this.state)
     // TODO: validate form inputs
+    let newClient = this.state
+    Meteor.call('Clients.insert', newClient, (err, res) => {
+      if (err) {
+        console.log(err.reason)
+      } else {
+        console.log(res)
+      }
+    })
   }
 
   render() {
@@ -45,9 +54,13 @@ class CreateClient extends Component {
     return (
       <div>
         <Breadcrumb>
-          <Breadcrumb.Section link>Главная</Breadcrumb.Section>
+          <Breadcrumb.Section link as={Link} to="/">
+            Главная
+          </Breadcrumb.Section>
           <Breadcrumb.Divider />
-          <Breadcrumb.Section link>Клиенты</Breadcrumb.Section>
+          <Breadcrumb.Section link as={Link} to="/clients">
+            Клиенты
+          </Breadcrumb.Section>
           <Breadcrumb.Divider />
           <Breadcrumb.Section active>Добавить</Breadcrumb.Section>
         </Breadcrumb>

@@ -12,7 +12,8 @@ Meteor.methods({
       firstname: String,
       patronimic: String,
       email: String,
-      phone: String
+      phone: String,
+      iin: String
     })
 
     try {
@@ -29,7 +30,8 @@ Meteor.methods({
       firstname: String,
       patronimic: String,
       email: String,
-      phone: String
+      phone: String,
+      iin: String
     })
 
     try {
