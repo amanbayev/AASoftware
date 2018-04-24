@@ -1,7 +1,7 @@
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
 
-const Clients = new Mongo.Collection('Clients')
+const Clients = new Mongo.Collection('clients')
 
 Clients.allow({
   insert: () => false,

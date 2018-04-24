@@ -6,12 +6,12 @@ import { Container } from 'semantic-ui-react'
 import TopMenu from '/imports/ui/TopMenu'
 import Blank from '/imports/ui/Blank'
 import Admin from '/imports/ui/Admin'
-import Clients from '/imports/ui/Clients'
+import Clients from '/imports/ui/Clients/Clients'
 import NotFound from '/imports/ui/NotFound'
 
 const PropsWrapper = props => (
   <div>
-    <TopMenu history={props.history} />
+    <TopMenu location={props.location} history={props.history} />
     <Container>
       <Switch>
         <Route exact path="/" component={Blank} />

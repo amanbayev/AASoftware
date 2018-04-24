@@ -5,14 +5,15 @@ import { Link } from 'react-router-dom'
 class TopMenu extends Component {
   constructor(props) {
     super(props)
+    let path = props.location.pathname
     this.state = {
-      activeItem: 'home'
+      activeItem: path
     }
   }
 
   handleMenuItemClick = (e, { name }) => {
     this.setState({ activeItem: name })
-    this.props.history.push('/' + name)
+    this.props.history.push(name)
   }
   render() {
     const { activeItem } = this.state
@@ -21,20 +22,20 @@ class TopMenu extends Component {
       <Menu>
         <Container>
           <Menu.Item
-            name="home"
-            active={activeItem === 'home'}
+            name="/"
+            active={activeItem === '/'}
             content="Главная"
             onClick={this.handleMenuItemClick}
           />
           <Menu.Item
-            name="admin"
-            active={activeItem === 'admin'}
+            name="/admin"
+            active={activeItem === '/admin'}
             content="Администрирование"
             onClick={this.handleMenuItemClick}
           />
           <Menu.Item
-            name="clients"
-            active={activeItem === 'clients'}
+            name="/clients"
+            active={activeItem === '/clients'}
             content="Клиенты"
             onClick={this.handleMenuItemClick}
           />

@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import { Icon, Label, Menu, Table } from 'semantic-ui-react'
+import { withTracker } from 'meteor/react-meteor-data'
+import { Bert } from 'meteor/themeteorchef:bert'
+import ClientsCollection from '/imports/api/Clients/Clients'
 
 class ClientsTable extends Component {
   constructor(props) {
@@ -64,4 +67,10 @@ class ClientsTable extends Component {
   }
 }
 
-export default ClientsTable
+export default withTracker(() => {
+  const subscription = Meteor.subscribe('clients')
+  return {
+    loading: !subscription.ready(),
+    clients: ClientsCollection.find().fetch()
+  }
+})(ClientsTable)
