@@ -25,6 +25,5 @@ check
 ddp-rate-limiter@1.0.7
 aldeed:collection2-core@2.0.1
 themeteorchef:bert
-audit-argument-checks
 dynamic-import
 static-html

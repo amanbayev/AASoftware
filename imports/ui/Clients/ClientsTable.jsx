@@ -1,21 +1,36 @@
 import React, { Component } from 'react'
-import { Icon, Label, Menu, Table, Button } from 'semantic-ui-react'
 import { withTracker } from 'meteor/react-meteor-data'
-import { Link } from 'react-router-dom'
 import { Bert } from 'meteor/themeteorchef:bert'
+
 import ClientsCollection from '/imports/api/Clients/Clients'
 
+import {
+  Icon,
+  Label,
+  Menu,
+  Table,
+  Button,
+  Form,
+  Segment
+} from 'semantic-ui-react'
+
 class ClientsTable extends Component {
-  constructor(props) {
-    super(props)
+  renderClients() {
+    return this.props.clients.map((client, index) => (
+      <Table.Row key={client.number}>
+        <Table.Cell>{client.number}</Table.Cell>
+        <Table.Cell>{client.lastname}</Table.Cell>
+        <Table.Cell>{client.firstname}</Table.Cell>
+        <Table.Cell>{client.patronimic}</Table.Cell>
+        <Table.Cell>{client.phone}</Table.Cell>
+        <Table.Cell>{client.iin}</Table.Cell>
+      </Table.Row>
+    ))
   }
-  renderClients() {}
+
   render() {
     return (
-      <div>
-        <Button as={Link} to="/clients/add">
-          Добавить
-        </Button>
+      <Segment>
         <Table celled>
           <Table.Header>
             <Table.Row>
@@ -23,44 +38,11 @@ class ClientsTable extends Component {
               <Table.HeaderCell>Фамилия</Table.HeaderCell>
               <Table.HeaderCell>Имя</Table.HeaderCell>
               <Table.HeaderCell>Отчество</Table.HeaderCell>
-              <Table.HeaderCell>Email</Table.HeaderCell>
               <Table.HeaderCell>Телефон</Table.HeaderCell>
-              <Table.HeaderCell>Менеджер</Table.HeaderCell>
+              <Table.HeaderCell>ИИН</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
-
-          <Table.Body>
-            <Table.Row>
-              <Table.Cell>
-                <Label ribbon>First</Label>
-              </Table.Cell>
-              <Table.Cell>Cell</Table.Cell>
-              <Table.Cell>Cell</Table.Cell>
-              <Table.Cell>Cell</Table.Cell>
-              <Table.Cell>Cell</Table.Cell>
-              <Table.Cell>Cell</Table.Cell>
-              <Table.Cell>Cell</Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell>Cell</Table.Cell>
-              <Table.Cell>Cell</Table.Cell>
-              <Table.Cell>Cell</Table.Cell>
-              <Table.Cell>Cell</Table.Cell>
-              <Table.Cell>Cell</Table.Cell>
-              <Table.Cell>Cell</Table.Cell>
-              <Table.Cell>Cell</Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell>Cell</Table.Cell>
-              <Table.Cell>Cell</Table.Cell>
-              <Table.Cell>Cell</Table.Cell>
-              <Table.Cell>Cell</Table.Cell>
-              <Table.Cell>Cell</Table.Cell>
-              <Table.Cell>Cell</Table.Cell>
-              <Table.Cell>Cell</Table.Cell>
-            </Table.Row>
-          </Table.Body>
-
+          <Table.Body>{this.renderClients()}</Table.Body>
           <Table.Footer>
             <Table.Row>
               <Table.HeaderCell colSpan="7">
@@ -80,13 +62,13 @@ class ClientsTable extends Component {
             </Table.Row>
           </Table.Footer>
         </Table>
-      </div>
+      </Segment>
     )
   }
 }
 
 export default withTracker(() => {
-  const subscription = Meteor.subscribe('clients')
+  const subscription = Meteor.subscribe('AllClients')
   return {
     loading: !subscription.ready(),
     clients: ClientsCollection.find().fetch()

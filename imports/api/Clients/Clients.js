@@ -35,9 +35,16 @@ Clients.schema = new SimpleSchema({
     }
   },
   number: {
-    required: true,
     type: String,
-    label: 'Number of the client.'
+    label: 'Number of the client.',
+    autoValue() {
+      if (this.isInsert) {
+        let currentNumber = Clients.find().count() + 1
+        let stringNumber = currentNumber.toString().padStart(10, '0')
+        // console.log('autovalue number: ' + stringNumber)
+        return stringNumber
+      }
+    }
   },
   lastname: {
     required: true,
@@ -56,6 +63,7 @@ Clients.schema = new SimpleSchema({
   },
   email: {
     type: String,
+    optional: true,
     label: 'Email of the client.'
   },
   phone: {
@@ -77,6 +85,16 @@ Clients.schema = new SimpleSchema({
     type: Date,
     required: true,
     label: 'Date of birth'
+  },
+  notes: {
+    type: String,
+    optional: true,
+    label: 'Notes'
+  },
+  referralSource: {
+    type: String,
+    optional: true,
+    label: 'Source of referral'
   }
 })
 

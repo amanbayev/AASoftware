@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import ClientsTable from './ClientsTable'
 import CreateClient from './CreateClient'
+import ClientsSearchTable from './ClientsSearchTable'
 
 import { Switch, Route } from 'react-router-dom'
 
@@ -17,7 +17,7 @@ class Clients extends Component {
     return (
       <Switch>
         <Route exact path="/clients/add" component={CreateClient} />
-        <Route exact path="/clients" component={ClientsTable} />
+        <Route exact path="/clients" component={ClientsSearchTable} />
       </Switch>
     )
   }

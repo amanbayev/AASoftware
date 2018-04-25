@@ -7,13 +7,16 @@ import rateLimit from '../../modules/rate-limit'
 Meteor.methods({
   'Clients.insert': function ClientsInsert(doc) {
     check(doc, {
-      number: String,
       lastname: String,
       firstname: String,
       patronimic: String,
       email: String,
       phone: String,
-      iin: String
+      iin: String,
+      sex: String,
+      dob: String,
+      notes: String,
+      referralSource: String
     })
 
     try {
@@ -25,13 +28,16 @@ Meteor.methods({
   'Clients.update': function ClientsUpdate(doc) {
     check(doc, {
       _id: String,
-      number: String,
       lastname: String,
       firstname: String,
       patronimic: String,
       email: String,
       phone: String,
-      iin: String
+      iin: String,
+      sex: String,
+      dob: String,
+      notes: String,
+      referralSource: String
     })
 
     try {
