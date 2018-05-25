@@ -1,5 +1,5 @@
-import { Meteor } from 'meteor/meteor'
-import Clients from '../../api/Clients/Clients'
+import { Meteor } from 'meteor/meteor';
+import Clients from '../../api/Clients/Clients';
 
 if (Meteor.users.find().count() === 0) {
   let cUser = Accounts.createUser({
@@ -9,9 +9,9 @@ if (Meteor.users.find().count() === 0) {
     profile: {
       first_name: 'Талгат',
       last_name: 'Аманбаев',
-      company: 'Grow IT'
-    }
-  })
-  Roles.addUsersToRoles(cUser, 'admin')
-  console.log('admin user added')
+      company: 'Grow IT',
+    },
+  });
+  Roles.addUsersToRoles(cUser, 'admin');
+  console.log('admin user added');
 }

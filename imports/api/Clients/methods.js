@@ -1,8 +1,8 @@
-import { Meteor } from 'meteor/meteor'
-import { check } from 'meteor/check'
-import Clients from './Clients'
-import handleMethodException from '../../modules/handle-method-exception'
-import rateLimit from '../../modules/rate-limit'
+import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
+import Clients from './Clients';
+import handleMethodException from '../../modules/handle-method-exception';
+import rateLimit from '../../modules/rate-limit';
 
 Meteor.methods({
   'Clients.insert': function ClientsInsert(doc) {
@@ -16,13 +16,13 @@ Meteor.methods({
       sex: String,
       dob: String,
       notes: String,
-      referralSource: String
-    })
+      referralSource: String,
+    });
 
     try {
-      return Clients.insert({ owner: this.userId, ...doc })
+      return Clients.insert({ owner: this.userId, ...doc });
     } catch (exception) {
-      handleMethodException(exception)
+      handleMethodException(exception);
     }
   },
   'Clients.update': function ClientsUpdate(doc) {
@@ -37,30 +37,30 @@ Meteor.methods({
       sex: String,
       dob: String,
       notes: String,
-      referralSource: String
-    })
+      referralSource: String,
+    });
 
     try {
-      const documentId = doc._id
-      Clients.update(documentId, { $set: doc })
-      return documentId // Return _id so we can redirect to document after update.
+      const documentId = doc._id;
+      Clients.update(documentId, { $set: doc });
+      return documentId; // Return _id so we can redirect to document after update.
     } catch (exception) {
-      handleMethodException(exception)
+      handleMethodException(exception);
     }
   },
   'Clients.remove': function ClientsRemove(documentId) {
-    check(documentId, String)
+    check(documentId, String);
 
     try {
-      return Clients.remove(documentId)
+      return Clients.remove(documentId);
     } catch (exception) {
-      handleMethodException(exception)
+      handleMethodException(exception);
     }
-  }
-})
+  },
+});
 
 rateLimit({
   methods: ['Clients.insert', 'Clients.update', 'Clients.remove'],
   limit: 5,
-  timeRange: 1000
-})
+  timeRange: 1000,
+});

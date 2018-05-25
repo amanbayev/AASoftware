@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import { withTracker } from 'meteor/react-meteor-data'
-import { Bert } from 'meteor/themeteorchef:bert'
+import React, { Component } from 'react';
+import { withTracker } from 'meteor/react-meteor-data';
+import { Bert } from 'meteor/themeteorchef:bert';
 
-import ClientsCollection from '/imports/api/Clients/Clients'
+import ClientsCollection from '/imports/api/Clients/Clients';
 
 import {
   Icon,
@@ -11,27 +11,56 @@ import {
   Table,
   Button,
   Form,
-  Segment
-} from 'semantic-ui-react'
+  Segment,
+} from 'semantic-ui-react';
 
 class ClientsTable extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   renderClients() {
     return this.props.clients.map((client, index) => (
-      <Table.Row key={client.number}>
+      <Table.Row
+        key={client.number}
+        style={{ cursor: 'pointer' }}
+        onClick={e => {
+          this.props.history.push('/clients/' + client.number);
+        }}
+      >
         <Table.Cell>{client.number}</Table.Cell>
         <Table.Cell>{client.lastname}</Table.Cell>
         <Table.Cell>{client.firstname}</Table.Cell>
         <Table.Cell>{client.patronimic}</Table.Cell>
         <Table.Cell>{client.phone}</Table.Cell>
         <Table.Cell>{client.iin}</Table.Cell>
+        {/* <Table.Cell>{client.lastVisit}</Table.Cell> */}
       </Table.Row>
-    ))
+    ));
+  }
+
+  generateInterimItems() {
+    if (this.props.last > 2) {
+      let buttons = [];
+      for (let i = 2; i < this.props.last; i++) buttons.push(i);
+      return buttons.map((button, index) => (
+        <Menu.Item
+          key={index}
+          as="a"
+          active={this.props.skip + 1 == button}
+          onClick={e => this.props.handleSkipChange(button - 1)}
+        >
+          {button}
+        </Menu.Item>
+      ));
+    }
+    return '';
   }
 
   render() {
     return (
       <Segment>
-        <Table celled>
+        <Table celled selectable>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Номер</Table.HeaderCell>
@@ -40,37 +69,84 @@ class ClientsTable extends Component {
               <Table.HeaderCell>Отчество</Table.HeaderCell>
               <Table.HeaderCell>Телефон</Table.HeaderCell>
               <Table.HeaderCell>ИИН</Table.HeaderCell>
+              {/* <Table.HeaderCell>Последний визит</Table.HeaderCell> */}
             </Table.Row>
           </Table.Header>
           <Table.Body>{this.renderClients()}</Table.Body>
           <Table.Footer>
             <Table.Row>
               <Table.HeaderCell colSpan="7">
+                Показываются с{' '}
+                {this.props.total > 0 ? this.props.skip * 5 + 1 : 0} по{' '}
+                {this.props.skip + 1 == this.props.last && this.props.last > 0
+                  ? this.props.total
+                  : (this.props.skip + 1) * 5}{' '}
+                из {this.props.total} записей
                 <Menu floated="right" pagination>
-                  <Menu.Item as="a" icon>
-                    <Icon name="chevron left" />
+                  {this.props.skip > 0 && (
+                    <Menu.Item
+                      as="a"
+                      icon
+                      onClick={e => {
+                        this.props.handleSkipChange(this.props.skip - 1);
+                      }}
+                    >
+                      <Icon name="chevron left" />
+                    </Menu.Item>
+                  )}
+                  {this.props.total > 5 && (
+                    <Menu.Item
+                      as="a"
+                      active={this.props.skip + 1 == 1}
+                      onClick={e => this.props.handleSkipChange(0)}
+                    >
+                      1
+                    </Menu.Item>
+                  )}
+                  {this.generateInterimItems()}
+                  <Menu.Item
+                    as="a"
+                    active={this.props.skip + 1 == this.props.last}
+                    onClick={e => {
+                      this.props.handleSkipChange(this.props.last - 1);
+                    }}
+                  >
+                    {this.props.last}
                   </Menu.Item>
-                  <Menu.Item as="a">1</Menu.Item>
-                  <Menu.Item as="a">2</Menu.Item>
-                  <Menu.Item as="a">3</Menu.Item>
-                  <Menu.Item as="a">4</Menu.Item>
-                  <Menu.Item as="a" icon>
-                    <Icon name="chevron right" />
-                  </Menu.Item>
+                  {this.props.skip + 1 < this.props.last && (
+                    <Menu.Item
+                      as="a"
+                      icon
+                      onClick={e => {
+                        this.props.handleSkipChange(this.props.skip + 1);
+                      }}
+                    >
+                      <Icon name="chevron right" />
+                    </Menu.Item>
+                  )}
                 </Menu>
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>
         </Table>
       </Segment>
-    )
+    );
   }
 }
 
-export default withTracker(() => {
-  const subscription = Meteor.subscribe('AllClients')
+export default withTracker(props => {
+  const skip = props.skip || 0;
+  const filters = props.filters || {};
+  const total = ClientsCollection.find(filters).count();
+  const subscription = Meteor.subscribe('AllClients');
   return {
     loading: !subscription.ready(),
-    clients: ClientsCollection.find().fetch()
-  }
-})(ClientsTable)
+    handleSkipChange: props.handleSkipChange,
+    total,
+    last: Math.ceil(total / 5),
+    clients: ClientsCollection.find(filters, {
+      skip: skip * 5,
+      limit: 5,
+    }).fetch(),
+  };
+})(ClientsTable);
