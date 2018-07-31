@@ -2,7 +2,8 @@ const routeNames = {
   '': 'Главная',
   clients: 'Клиенты',
   add: 'Добавить',
-  admin: 'Администрирование'
-}
+  admin: 'Администрирование',
+  staff: 'Персонал',
+};
 
-export default routeNames
+export default routeNames;

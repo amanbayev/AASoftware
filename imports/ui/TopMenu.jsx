@@ -1,30 +1,30 @@
-import React, { Component } from 'react'
-import { Menu, Container, Button } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
+import React, { Component } from 'react';
+import { Menu, Container, Button } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 class TopMenu extends Component {
   constructor(props) {
-    super(props)
-    let path = props.location.pathname
+    super(props);
+    let path = props.location.pathname;
     this.state = {
-      activeItem: path
-    }
+      activeItem: path,
+    };
   }
 
   handleMenuItemClick = (e, { name }) => {
-    this.setState({ activeItem: name })
-    this.props.history.push(name)
-  }
+    this.setState({ activeItem: name });
+    this.props.history.push(name);
+  };
   render() {
-    const { activeItem } = this.state
+    const { activeItem } = this.state;
 
     return (
       <Menu>
         <Container>
           <Menu.Item header>AASoftware</Menu.Item>
           <Menu.Item
-            name="/"
-            active={activeItem === '/'}
+            name="/landing"
+            active={activeItem === '/landing'}
             content="Главная"
             onClick={this.handleMenuItemClick}
           />
@@ -40,6 +40,12 @@ class TopMenu extends Component {
             content="Клиенты"
             onClick={this.handleMenuItemClick}
           />
+          <Menu.Item
+            name="/staff"
+            active={activeItem === '/staff'}
+            content="Персонал"
+            onClick={this.handleMenuItemClick}
+          />
           <Menu.Menu position="right">
             <Menu.Item
               name="/profile"
@@ -51,8 +57,8 @@ class TopMenu extends Component {
           </Menu.Menu>
         </Container>
       </Menu>
-    )
+    );
   }
 }
 
-export default TopMenu
+export default TopMenu;

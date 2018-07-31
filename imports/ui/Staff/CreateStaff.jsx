@@ -8,7 +8,7 @@ const options = [
   { key: 'f', text: 'Женщина', value: 'female' },
 ];
 
-class CreateClient extends Component {
+class CreateStaff extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,7 +21,7 @@ class CreateClient extends Component {
       dob: '',
       notes: '',
       email: '',
-      referralSource: 'noanswer',
+      profession: '',
     };
   }
 
@@ -32,9 +32,9 @@ class CreateClient extends Component {
 
   handleSave = e => {
     // TODO: validate form inputs
-    let newClient = this.state;
+    let newStaff = this.state;
     let history = this.props.history;
-    Meteor.call('Clients.insert', newClient, (err, res) => {
+    Meteor.call('Staff.insert', newStaff, (err, res) => {
       if (err) {
         Bert.alert({
           title: 'Ошибка добавления!',
@@ -46,12 +46,12 @@ class CreateClient extends Component {
       } else {
         Bert.alert({
           title: 'Успешно добавлен!',
-          message: 'Клиент успешно добавлен в базу данных!',
+          message: 'Сотрудник успешно добавлен в базу данных!',
           type: 'success',
           style: 'growl-top-right',
           icon: 'fa-user',
         });
-        history.push('/clients');
+        history.push('/staff');
       }
     });
   };
@@ -61,7 +61,7 @@ class CreateClient extends Component {
     return (
       <Segment.Group>
         <Segment>
-          <h3>Добавить нового клиента</h3>
+          <h3>Добавить нового сотрудника</h3>
         </Segment>
         <Segment>
           <Form onSubmit={this.handleSave}>
@@ -69,7 +69,7 @@ class CreateClient extends Component {
               <Form.Input
                 readOnly
                 value="Будет присвоен после сохранения"
-                label="Номер клиента"
+                label="Номер сотрудника"
               />
             </Form.Field>
             <Form.Group widths="equal">
@@ -165,56 +165,6 @@ class CreateClient extends Component {
               value={this.state.notes}
             />
             <Form.Group>
-              <Form.Field>
-                <label>Откуда узнал о клинике:</label>
-              </Form.Field>
-              <Form.Field>
-                <Radio
-                  label="Не ответил"
-                  name="radioGroup"
-                  value="noanswer"
-                  checked={this.state.referralSource === 'noanswer'}
-                  onChange={this.handleRadioChange}
-                />
-              </Form.Field>
-              <Form.Field>
-                <Radio
-                  label="Вывеска"
-                  name="radioGroup"
-                  value="banner"
-                  checked={this.state.referralSource === 'banner'}
-                  onChange={this.handleRadioChange}
-                />
-              </Form.Field>
-              <Form.Field>
-                <Radio
-                  label="Рекоммендации"
-                  name="radioGroup"
-                  value="recommendations"
-                  checked={this.state.referralSource === 'recommendations'}
-                  onChange={this.handleRadioChange}
-                />
-              </Form.Field>
-              <Form.Field>
-                <Radio
-                  label="Интернет"
-                  name="radioGroup"
-                  value="internet"
-                  checked={this.state.referralSource === 'internet'}
-                  onChange={this.handleRadioChange}
-                />
-              </Form.Field>
-              <Form.Field>
-                <Radio
-                  label="Реклама"
-                  name="radioGroup"
-                  value="ad"
-                  checked={this.state.referralSource === 'ad'}
-                  onChange={this.handleRadioChange}
-                />
-              </Form.Field>
-            </Form.Group>
-            <Form.Group>
               <Form.Button primary type="submit">
                 Сохранить
               </Form.Button>
@@ -235,4 +185,4 @@ class CreateClient extends Component {
   }
 }
 
-export default CreateClient;
+export default CreateStaff;

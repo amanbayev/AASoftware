@@ -13,8 +13,11 @@ import TopMenu from '/imports/ui/TopMenu';
 import Blank from '/imports/ui/Blank';
 import Admin from '/imports/ui/Admin';
 import Clients from '/imports/ui/Clients/Clients';
+import Staff from '/imports/ui/Staff/Staff';
 import NotFound from '/imports/ui/NotFound';
 import Breadcrumbs from '/imports/ui/Breadcrumbs';
+
+import Landing from './Landing';
 
 class PropsWrapper extends Component {
   constructor(props) {
@@ -45,7 +48,14 @@ class PropsWrapper extends Component {
         <Container>
           <Breadcrumbs location={props.location} />
           <Switch>
-            <Public exact path="/" component={Blank} />
+            <Authenticated
+              exact
+              path="/"
+              component={Blank}
+              {...props}
+              {...state}
+            />
+            <Public exact path="/blank" component={Blank} />
             <Authenticated
               path="/admin"
               component={Admin}
@@ -56,6 +66,13 @@ class PropsWrapper extends Component {
             <Authenticated
               path="/clients"
               component={Clients}
+              setAfterLoginPath={setAfterLoginPath}
+              {...props}
+              {...state}
+            />
+            <Authenticated
+              path="/staff"
+              component={Staff}
               setAfterLoginPath={setAfterLoginPath}
               {...props}
               {...state}
@@ -95,6 +112,7 @@ class App extends Component {
       <Router>
         <Switch>
           <Public exact path="/login" component={Login} {...props} {...state} />
+          <Route exact path="/landing" component={Landing} />
           <Authenticated
             path="/"
             component={PropsWrapper}

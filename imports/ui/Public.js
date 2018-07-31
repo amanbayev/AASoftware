@@ -22,7 +22,7 @@ const Public = ({
           authenticated,
         })
       ) : (
-        <Redirect to={afterLoginPath || '/documents'} />
+        <Redirect to={afterLoginPath || '/landing'} />
       )
     }
   />
