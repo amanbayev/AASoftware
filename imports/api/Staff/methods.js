@@ -1,6 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
+
 import Staff from './Staff';
+import Specialities from './Specialities';
+
 import handleMethodException from '../../modules/handle-method-exception';
 import rateLimit from '../../modules/rate-limit';
 
@@ -53,6 +56,25 @@ Meteor.methods({
 
     try {
       return Staff.remove(documentId);
+    } catch (exception) {
+      handleMethodException(exception);
+    }
+  },
+  'Speciality.insert': function(name) {
+    check(name, String);
+    try {
+      let doc = {
+        name,
+      };
+      return Specialities.insert(doc);
+    } catch (exception) {
+      handleMethodException(exception);
+    }
+  },
+  'Speciality.insert': function(documentId) {
+    check(documentId, String);
+    try {
+      return Specialities.remove(documentId);
     } catch (exception) {
       handleMethodException(exception);
     }

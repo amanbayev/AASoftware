@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Segment, Form, Select, Radio, Button } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
 import { Bert } from 'meteor/themeteorchef:bert';
 
 const options = [

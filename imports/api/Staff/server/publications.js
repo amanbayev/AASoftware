@@ -1,9 +1,14 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import StaffCollection from '../Staff';
+import SpecialitiesCollection from '../Specialities';
 
 Meteor.publish('AllStaff', function Staff() {
   return StaffCollection.find();
+});
+
+Meteor.publish('AllSpecialities', function() {
+  return SpecialitiesCollection.find();
 });
 
 Meteor.publish('findStaff', function(number) {
