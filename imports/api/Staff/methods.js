@@ -66,7 +66,9 @@ Meteor.methods({
       let doc = {
         name,
       };
-      return Specialities.insert(doc);
+      let id = Specialities.insert(doc);
+      console.log(id);
+      return id;
     } catch (exception) {
       handleMethodException(exception);
     }
