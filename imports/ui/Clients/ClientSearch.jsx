@@ -49,7 +49,6 @@ class ClientSearch extends Component {
   handleSearch = e => {
     if (!this.state.searching) {
       let { searchText, searchField } = this.state;
-      // console.log(searchField);
       let filters = {
         [searchField]: {
           $regex: '.*' + searchText + '.*',
@@ -58,7 +57,6 @@ class ClientSearch extends Component {
       };
 
       this.props.handleFiltersChange(filters);
-      // console.log(filters);
     }
   };
 

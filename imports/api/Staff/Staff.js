@@ -41,7 +41,6 @@ Staff.schema = new SimpleSchema({
       if (this.isInsert) {
         let currentNumber = Staff.find().count() + 1;
         let stringNumber = currentNumber.toString().padStart(10, '0');
-        // console.log('autovalue number: ' + stringNumber)
         return stringNumber;
       }
     },

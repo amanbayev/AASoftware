@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Menu, Container, Button } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { Menu, Container } from 'semantic-ui-react';
 
 class TopMenu extends Component {
   constructor(props) {
@@ -32,6 +31,12 @@ class TopMenu extends Component {
             name="/admin"
             active={activeItem === '/admin'}
             content="Администрирование"
+            onClick={this.handleMenuItemClick}
+          />
+          <Menu.Item
+            name="/naryads"
+            active={activeItem === '/naryads'}
+            content="Наряды"
             onClick={this.handleMenuItemClick}
           />
           <Menu.Item

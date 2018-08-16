@@ -77,7 +77,6 @@ class Cabinets extends Component {
         <form
           onSubmit={e => {
             e.preventDefault();
-            console.log(this.state.name);
             Meteor.call('Cabinet.insert', this.state.name, (err, res) => {
               if (err) {
                 Bert.alert({

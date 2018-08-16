@@ -17,6 +17,8 @@ import Staff from '/imports/ui/Staff/Staff';
 import NotFound from '/imports/ui/NotFound';
 import Breadcrumbs from '/imports/ui/Breadcrumbs';
 
+import Naryads from '/imports/ui/Naryads/Naryads';
+
 import Landing from './Landing';
 
 class PropsWrapper extends Component {
@@ -73,6 +75,13 @@ class PropsWrapper extends Component {
             <Authenticated
               path="/staff"
               component={Staff}
+              setAfterLoginPath={setAfterLoginPath}
+              {...props}
+              {...state}
+            />
+            <Authenticated
+              path="/naryads"
+              component={Naryads}
               setAfterLoginPath={setAfterLoginPath}
               {...props}
               {...state}

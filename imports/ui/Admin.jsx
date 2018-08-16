@@ -37,14 +37,6 @@ class Admin extends Component {
           />
         ),
       },
-      {
-        menuItem: 'Диагнозы',
-        render: () => <Tab.Pane>Tab 3</Tab.Pane>,
-      },
-      {
-        menuItem: 'Призяка врачей к кабинетам',
-        render: () => <Tab.Pane>Tab 4</Tab.Pane>,
-      },
     ];
 
     return (
