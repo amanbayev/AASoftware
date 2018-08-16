@@ -4,15 +4,7 @@ import { Bert } from 'meteor/themeteorchef:bert';
 
 import ClientsCollection from '/imports/api/Clients/Clients';
 
-import {
-  Icon,
-  Label,
-  Menu,
-  Table,
-  Button,
-  Form,
-  Segment,
-} from 'semantic-ui-react';
+import { Icon, Menu, Table, Segment } from 'semantic-ui-react';
 
 class ClientsTable extends Component {
   constructor(props) {

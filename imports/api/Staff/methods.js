@@ -3,6 +3,7 @@ import { check } from 'meteor/check';
 
 import Staff from './Staff';
 import Specialities from './Specialities';
+import Cabinets from './Cabinets';
 
 import handleMethodException from '../../modules/handle-method-exception';
 import rateLimit from '../../modules/rate-limit';
@@ -65,15 +66,15 @@ Meteor.methods({
     try {
       let doc = {
         name,
+        counter: 0,
       };
       let id = Specialities.insert(doc);
-      console.log(id);
       return id;
     } catch (exception) {
       handleMethodException(exception);
     }
   },
-  'Speciality.insert': function(documentId) {
+  'Speciality.remove': function(documentId) {
     check(documentId, String);
     try {
       return Specialities.remove(documentId);
@@ -81,10 +82,39 @@ Meteor.methods({
       handleMethodException(exception);
     }
   },
+  'Cabinet.insert': function(name) {
+    check(name, String);
+    try {
+      let doc = {
+        name,
+        occupiedBy: '',
+      };
+      let id = Cabinets.insert(doc);
+      return id;
+    } catch (exception) {
+      handleMethodException(exception);
+    }
+  },
+  'Cabinet.remove': function(documentId) {
+    check(documentId, String);
+    try {
+      return Cabinets.remove(documentId);
+    } catch (exception) {
+      handleMethodException(exception);
+    }
+  },
 });
 
 rateLimit({
-  methods: ['Staff.insert', 'Staff.update', 'Staff.remove'],
+  methods: [
+    'Staff.insert',
+    'Staff.update',
+    'Staff.remove',
+    'Cabinet.insert',
+    'Cabinet.remove',
+    'Speciality.insert',
+    'Speciality.remove',
+  ],
   limit: 5,
   timeRange: 1000,
 });

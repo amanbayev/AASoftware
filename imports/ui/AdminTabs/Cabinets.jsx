@@ -3,28 +3,28 @@ import React, { Component } from 'react';
 import { Menu, Tab, Table, Button, Icon, Input } from 'semantic-ui-react';
 
 import { withTracker } from 'meteor/react-meteor-data';
-import SpecialitiesCollection from '/imports/api/Staff/Specialities';
+import CabinetsCollection from '/imports/api/Staff/Cabinets';
 import { Bert } from 'meteor/themeteorchef:bert';
 
-class Specialities extends Component {
+class Cabinets extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: '',
     };
   }
-  renderSpecialities() {
-    return this.props.specialities.map((speciality, index) => (
-      <Table.Row key={speciality._id}>
-        <Table.Cell>{speciality.name}</Table.Cell>
-        <Table.Cell>{speciality.counter}</Table.Cell>
+  renderCabinets() {
+    return this.props.cabinets.map((cabinet, index) => (
+      <Table.Row key={cabinet._id}>
+        <Table.Cell>{cabinet.name}</Table.Cell>
+        <Table.Cell>{cabinet.occupiedBy}</Table.Cell>
         <Table.Cell>
           <Button
             basic
-            data-id={speciality._id}
+            data-id={cabinet._id}
             onClick={e => {
               let id = e.target.getAttribute('data-id');
-              Meteor.call('Speciality.remove', id, (err, res) => {
+              Meteor.call('Cabinet.remove', id, (err, res) => {
                 if (err) {
                   Bert.alert({
                     title: 'Ошибка удаления!',
@@ -35,8 +35,8 @@ class Specialities extends Component {
                   });
                 } else {
                   Bert.alert({
-                    title: 'Специальность удалена!',
-                    message: 'Специальность успешно удалена из базы данных!',
+                    title: 'Кабинет удален!',
+                    message: 'Кабинет успешно удален из базы данных!',
                     type: 'success',
                     style: 'growl-top-right',
                     icon: 'fa-user',
@@ -61,9 +61,7 @@ class Specialities extends Component {
           key={index}
           as="a"
           active={this.props.skip + 1 == button}
-          onClick={e =>
-            this.props.handleSkipChange('specialitiesSkip', button - 1)
-          }
+          onClick={e => this.props.handleSkipChange('cabinetsSkip', button - 1)}
         >
           {button}
         </Menu.Item>
@@ -75,11 +73,12 @@ class Specialities extends Component {
   render() {
     return (
       <Tab.Pane>
-        <h3>Специальности</h3>
+        <h3>Кабинеты</h3>
         <form
           onSubmit={e => {
             e.preventDefault();
-            Meteor.call('Speciality.insert', this.state.name, (err, res) => {
+            console.log(this.state.name);
+            Meteor.call('Cabinet.insert', this.state.name, (err, res) => {
               if (err) {
                 Bert.alert({
                   title: 'Ошибка добавления!',
@@ -91,7 +90,7 @@ class Specialities extends Component {
               } else {
                 Bert.alert({
                   title: 'Успешно добавлена!',
-                  message: 'Специальность успешно добавлена в базу данных!',
+                  message: 'Кабинет успешно добавлен в базу данных!',
                   type: 'success',
                   style: 'growl-top-right',
                   icon: 'fa-user',
@@ -105,7 +104,7 @@ class Specialities extends Component {
             style={{ width: '240px' }}
             value={this.state.name}
             onChange={e => this.setState({ name: e.target.value })}
-            placeholder="Название специальности"
+            placeholder="Название кабинета"
           />
           <Button
             style={{ marginLeft: '16px' }}
@@ -114,7 +113,7 @@ class Specialities extends Component {
             labelPosition="left"
             secondary
           >
-            Добавить специальность
+            Добавить кабинет
             <Icon name="plus" />
           </Button>
         </form>
@@ -122,11 +121,11 @@ class Specialities extends Component {
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Название</Table.HeaderCell>
-              <Table.HeaderCell>Количество врачей</Table.HeaderCell>
+              <Table.HeaderCell>Владелец</Table.HeaderCell>
               <Table.HeaderCell>Удалить</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
-          <Table.Body>{this.renderSpecialities()}</Table.Body>
+          <Table.Body>{this.renderCabinets()}</Table.Body>
           <Table.Footer>
             <Table.Row>
               <Table.HeaderCell colSpan="3">
@@ -143,7 +142,7 @@ class Specialities extends Component {
                       icon
                       onClick={e => {
                         this.props.handleSkipChange(
-                          'specialitiesSkip',
+                          'cabinetsSkip',
                           this.props.skip - 1,
                         );
                       }}
@@ -156,7 +155,7 @@ class Specialities extends Component {
                       as="a"
                       active={this.props.skip + 1 == 1}
                       onClick={e =>
-                        this.props.handleSkipChange('specialitiesSkip', 0)
+                        this.props.handleSkipChange('cabinetsSkip', 0)
                       }
                     >
                       1
@@ -168,7 +167,7 @@ class Specialities extends Component {
                     active={this.props.skip + 1 == this.props.last}
                     onClick={e => {
                       this.props.handleSkipChange(
-                        'specialitiesSkip',
+                        'cabinetsSkip',
                         this.props.last - 1,
                       );
                     }}
@@ -181,7 +180,7 @@ class Specialities extends Component {
                       icon
                       onClick={e => {
                         this.props.handleSkipChange(
-                          'specialitiesSkip',
+                          'cabinetsSkip',
                           this.props.skip + 1,
                         );
                       }}
@@ -200,16 +199,16 @@ class Specialities extends Component {
 }
 
 export default withTracker(props => {
-  const subscription = Meteor.subscribe('AllSpecialities');
+  const subscription = Meteor.subscribe('AllCabinets');
   const skip = props.skip || 0;
-  const total = SpecialitiesCollection.find({}).count();
+  const total = CabinetsCollection.find({}).count();
 
   return {
     loading: !subscription.ready(),
     total,
     handleSkipChange: props.handleSkipChange,
     last: Math.ceil(total / 5),
-    specialities: SpecialitiesCollection.find(
+    cabinets: CabinetsCollection.find(
       {},
       {
         skip: skip * 5,
@@ -217,4 +216,4 @@ export default withTracker(props => {
       },
     ).fetch(),
   };
-})(Specialities);
+})(Cabinets);

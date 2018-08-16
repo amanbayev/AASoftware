@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import StaffCollection from '../Staff';
 import SpecialitiesCollection from '../Specialities';
+import CabinetsCollection from '../Cabinets';
 
 Meteor.publish('AllStaff', function Staff() {
   return StaffCollection.find();
@@ -9,6 +10,10 @@ Meteor.publish('AllStaff', function Staff() {
 
 Meteor.publish('AllSpecialities', function() {
   return SpecialitiesCollection.find();
+});
+
+Meteor.publish('AllCabinets', function() {
+  return CabinetsCollection.find();
 });
 
 Meteor.publish('findStaff', function(number) {

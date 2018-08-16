@@ -1,24 +1,24 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
-const Specialities = new Mongo.Collection('specialities');
+const Cabinets = new Mongo.Collection('cabinets');
 
-Specialities.allow({
+Cabinets.allow({
   insert: () => false,
   update: () => false,
   remove: () => false,
 });
 
-Specialities.deny({
+Cabinets.deny({
   insert: () => true,
   update: () => true,
   remove: () => true,
 });
 
-Specialities.schema = new SimpleSchema({
+Cabinets.schema = new SimpleSchema({
   createdAt: {
     type: String,
-    label: 'The date this client was created.',
+    label: 'The date this cabinet was created.',
     autoValue() {
       if (this.isInsert) return new Date().toISOString();
     },
@@ -28,13 +28,13 @@ Specialities.schema = new SimpleSchema({
     optional: false,
     label: 'Name',
   },
-  counter: {
-    type: Number,
+  occupiedBy: {
+    type: String,
     optional: true,
-    label: 'Counter',
+    label: 'Occupied by',
   },
 });
 
-Specialities.attachSchema(Specialities.schema);
+Cabinets.attachSchema(Cabinets.schema);
 
-export default Specialities;
+export default Cabinets;
