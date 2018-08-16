@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Header, Menu, Grid } from 'semantic-ui-react';
+import { Header, Menu, Grid, Button } from 'semantic-ui-react';
 
 export default class Naryads extends Component {
   constructor(props) {
@@ -12,6 +12,13 @@ export default class Naryads extends Component {
 
   handleItemClick = (e, { name }) => {
     this.setState({ activeItem: name });
+  };
+
+  generateClick = e => {
+    Meteor.call('GenerateDocX', (err, res) => {
+      if (err) console.log(err);
+      else console.log(res);
+    });
   };
 
   render() {
@@ -41,6 +48,7 @@ export default class Naryads extends Component {
         <Grid.Column width={12}>
           <h4>Test content will go here</h4>
           <p>Like this one</p>
+          <Button onClick={this.generateClick.bind(this)}> Test</Button>
         </Grid.Column>
       </Grid>
     );
