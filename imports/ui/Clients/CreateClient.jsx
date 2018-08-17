@@ -68,7 +68,7 @@ class CreateClient extends Component {
             <Form.Field>
               <Form.Input
                 readOnly
-                value="Будет присвоен после сохранения"
+                value="[Будет автоматически присвоен после сохранения]"
                 label="Номер клиента"
               />
             </Form.Field>

@@ -10,14 +10,20 @@ import Public from '/imports/ui/Public';
 
 import Login from '/imports/ui/Login';
 import TopMenu from '/imports/ui/TopMenu';
+import Breadcrumbs from '/imports/ui/Breadcrumbs';
+
+// START old pages
 import Blank from '/imports/ui/Blank';
 import Admin from '/imports/ui/Admin';
 import Clients from '/imports/ui/Clients/Clients';
 import Staff from '/imports/ui/Staff/Staff';
 import NotFound from '/imports/ui/NotFound';
-import Breadcrumbs from '/imports/ui/Breadcrumbs';
-
 import Naryads from '/imports/ui/Naryads/Naryads';
+// END old pages
+
+// START new pages
+import Visit from '/imports/ui/Visit/Visit';
+// END new pages
 
 import Landing from './Landing';
 
@@ -41,53 +47,45 @@ class PropsWrapper extends Component {
     this.setState({ afterLoginPath });
   }
 
+  renderAuthenticated = (path, component, exact = false) => {
+    return (
+      <Authenticated
+        exact={exact}
+        path={path}
+        component={component}
+        setAfterLoginPath={this.setAfterLoginPath}
+        {...this.props}
+        {...this.state}
+      />
+    );
+  };
+
   render() {
     const { props, state, setAfterLoginPath } = this;
 
     return (
       <>
-        <TopMenu location={props.location} history={props.history} />
+        <TopMenu
+          location={props.location}
+          history={props.history}
+          userId={props.userId}
+        />
         <Container>
           <Breadcrumbs location={props.location} />
-          <Switch>
-            <Authenticated
-              exact
-              path="/"
-              component={Blank}
-              {...props}
-              {...state}
-            />
-            <Public exact path="/blank" component={Blank} />
-            <Authenticated
-              path="/admin"
-              component={Admin}
-              setAfterLoginPath={setAfterLoginPath}
-              {...props}
-              {...state}
-            />
-            <Authenticated
-              path="/clients"
-              component={Clients}
-              setAfterLoginPath={setAfterLoginPath}
-              {...props}
-              {...state}
-            />
-            <Authenticated
-              path="/staff"
-              component={Staff}
-              setAfterLoginPath={setAfterLoginPath}
-              {...props}
-              {...state}
-            />
-            <Authenticated
-              path="/naryads"
-              component={Naryads}
-              setAfterLoginPath={setAfterLoginPath}
-              {...props}
-              {...state}
-            />
-            <Route component={NotFound} />
-          </Switch>
+          <div style={{ marginTop: '16px' }}>
+            <Switch>
+              {this.renderAuthenticated('/', Blank, true)}
+              <Public exact path="/blank" component={Blank} />
+              {this.renderAuthenticated('/admin', Admin)}
+              {this.renderAuthenticated('/clients', Clients)}
+              {this.renderAuthenticated('/staff', Staff)}
+              {this.renderAuthenticated('/naryads', Naryads)}
+              {/* // new routes */}
+              {this.renderAuthenticated('/visit', Visit)}
+              {/* end new routes */}
+              <Route component={NotFound} />
+            </Switch>
+          </div>
         </Container>
       </>
     );

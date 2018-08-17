@@ -14,6 +14,37 @@ class TopMenu extends Component {
     this.setState({ activeItem: name });
     this.props.history.push(name);
   };
+
+  renderMenuItem = (path, label, role) => {
+    const roles = ['admin', role];
+    let color;
+    switch (role) {
+      case 'superadmin':
+        color = 'red';
+        break;
+      case 'doctor':
+        color = 'orange';
+        break;
+      case 'client':
+        color = 'green';
+        break;
+      default:
+        color = 'blue';
+        break;
+    }
+    return (
+      Roles.userIsInRole(this.props.userId, roles) && (
+        <Menu.Item
+          name={path}
+          color={color}
+          active={this.state.activeItem === path}
+          content={label}
+          onClick={this.handleMenuItemClick}
+        />
+      )
+    );
+  };
+
   render() {
     const { activeItem } = this.state;
 
@@ -21,7 +52,25 @@ class TopMenu extends Component {
       <Menu>
         <Container>
           <Menu.Item header>AASoftware</Menu.Item>
-          <Menu.Item
+          {this.renderMenuItem('/schedule', 'Расписание', [
+            'admin',
+            'registrar',
+          ])}
+          {this.renderMenuItem('/newvisit', 'Запись на прием', [
+            'admin',
+            'registrar',
+          ])}
+          {this.renderMenuItem('/visit', 'Прием пациента', 'doctor')}
+          {this.renderMenuItem('/storage', 'Склад', 'registrar')}
+          {this.renderMenuItem('/payments', 'Оплата', 'client')}
+          {this.renderMenuItem('/database', 'База Данных', 'registrar')}
+          {this.renderMenuItem(
+            '/tracklogs',
+            'Заполнение журналов',
+            'registrar',
+          )}
+          {this.renderMenuItem('/admin', 'Администрирование', 'registrar')}
+          {/* <Menu.Item
             name="/landing"
             active={activeItem === '/landing'}
             content="Главная"
@@ -50,7 +99,7 @@ class TopMenu extends Component {
             active={activeItem === '/staff'}
             content="Персонал"
             onClick={this.handleMenuItemClick}
-          />
+          /> */}
           <Menu.Menu position="right">
             <Menu.Item
               name="/profile"

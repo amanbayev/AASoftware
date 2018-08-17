@@ -15,20 +15,20 @@ Meteor.methods({
     doc.loadZip(zip);
 
     doc.setData({
-      date: '05',
+      date: '17',
       month: '08',
       year: '2018',
-      doctor: 'Test Doctor',
+      doctor: 'Ерлан Зейнуллаевич',
       referrer: '',
       number: '01',
-      patient_name: 'Test patient',
-      patient_phone: '7 702 555 88 44',
+      patient_name: 'Талгат А.',
+      patient_phone: '7 700 177 07 77',
       diagnoses: '',
       services: [
         {
           number: '1',
-          quantity: 'prof chistka',
-          price: '',
+          quantity: 'Проф чистка зубов',
+          price: '7 000',
         },
         {
           number: '2',
@@ -36,7 +36,7 @@ Meteor.methods({
           price: '15 000',
         },
       ],
-      total: '15 000',
+      total: '22 000',
       nosology: [
         {
           reason: '',
