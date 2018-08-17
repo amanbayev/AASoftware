@@ -51,7 +51,6 @@ class TopMenu extends Component {
     return (
       <Menu>
         <Container>
-          <Menu.Item header>AASoftware</Menu.Item>
           {this.renderMenuItem('/schedule', 'Расписание', [
             'admin',
             'registrar',
@@ -63,43 +62,8 @@ class TopMenu extends Component {
           {this.renderMenuItem('/visit', 'Прием пациента', 'doctor')}
           {this.renderMenuItem('/storage', 'Склад', 'registrar')}
           {this.renderMenuItem('/payments', 'Оплата', 'client')}
-          {this.renderMenuItem('/database', 'База Данных', 'registrar')}
-          {this.renderMenuItem(
-            '/tracklogs',
-            'Заполнение журналов',
-            'registrar',
-          )}
+          {this.renderMenuItem('/tracklogs', 'Журналы', 'registrar')}
           {this.renderMenuItem('/admin', 'Администрирование', 'registrar')}
-          {/* <Menu.Item
-            name="/landing"
-            active={activeItem === '/landing'}
-            content="Главная"
-            onClick={this.handleMenuItemClick}
-          />
-          <Menu.Item
-            name="/admin"
-            active={activeItem === '/admin'}
-            content="Администрирование"
-            onClick={this.handleMenuItemClick}
-          />
-          <Menu.Item
-            name="/naryads"
-            active={activeItem === '/naryads'}
-            content="Наряды"
-            onClick={this.handleMenuItemClick}
-          />
-          <Menu.Item
-            name="/clients"
-            active={activeItem === '/clients'}
-            content="Клиенты"
-            onClick={this.handleMenuItemClick}
-          />
-          <Menu.Item
-            name="/staff"
-            active={activeItem === '/staff'}
-            content="Персонал"
-            onClick={this.handleMenuItemClick}
-          /> */}
           <Menu.Menu position="right">
             <Menu.Item
               name="/profile"
