@@ -28,3 +28,6 @@ themeteorchef:bert
 dynamic-import
 static-html
 fortawesome:fontawesome
+jss:fullcalendar-react
+rzymek:moment-locale-ru
+momentjs:moment
