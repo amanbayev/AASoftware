@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { Grid, List, Header, Segment, Search } from 'semantic-ui-react';
+import faker from 'faker';
 
 const ListDoctors = () => (
   <List selection verticalAlign="middle">
@@ -83,6 +84,13 @@ export default class SelectDoctorsServices extends Component {
           <Grid.Column>
             <Header sub>Врачи:</Header>
             <ListDoctors />
+          </Grid.Column>
+          <Grid.Column>
+            <Header sub>Услуги врача:</Header>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column width={8}>
             <Search
               category
               loading={isLoading}
@@ -95,8 +103,17 @@ export default class SelectDoctorsServices extends Component {
               {...this.props}
             />
           </Grid.Column>
-          <Grid.Column>
-            <Header sub>Услуги врача:</Header>
+          <Grid.Column width={8}>
+            <Segment>
+              <Header>State</Header>
+              <pre style={{ overflowX: 'auto' }}>
+                {JSON.stringify(this.state, null, 2)}
+              </pre>
+              <Header>Options</Header>
+              <pre style={{ overflowX: 'auto' }}>
+                {JSON.stringify(source, null, 2)}
+              </pre>
+            </Segment>
           </Grid.Column>
         </Grid.Row>
       </Grid>
