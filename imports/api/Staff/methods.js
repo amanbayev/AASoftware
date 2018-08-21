@@ -15,6 +15,7 @@ Meteor.methods({
       clientId: String,
       date: Date,
       doctorId: String,
+      visitType: String,
     });
 
     try {
@@ -36,6 +37,7 @@ Meteor.methods({
       clientId: String,
       date: Date,
       doctorId: String,
+      visitType: String,
     });
 
     try {

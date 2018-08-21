@@ -42,6 +42,7 @@ class ClientsSearchTable extends Component {
           skip={this.state.skip}
           filters={this.state.filters}
           handleSkipChange={this.handleSkipChange}
+          handler={this.props.handleClientClick}
           {...this.props}
         />
       </Segment.Group>

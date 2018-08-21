@@ -27,7 +27,7 @@ export default class NewAppointmentModal extends Component {
   // triggers hiding but also saves and confirms visit
   save = () => {
     this.setState({ open: false });
-    this.props.handler();
+    this.props.saver(this.state.visitType);
   };
 
   render() {

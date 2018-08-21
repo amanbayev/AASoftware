@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 
 import { FullCalendar } from 'meteor/jss:fullcalendar-react';
+import { withTracker } from 'meteor/react-meteor-data';
+
+import AppointmentsCollection from '/imports/api/Staff/Appointments';
 
 import NewAppointmentModal from './NewAppointmentModal';
 
-export default class Schedule extends Component {
+class Schedule extends Component {
   constructor(props) {
     super(props);
 
@@ -22,24 +25,37 @@ export default class Schedule extends Component {
     moment.locale('ru');
     this.onEventSelect = this.onEventSelect.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.saveAppointment = this.saveAppointment.bind(this);
   }
 
   closeModal() {
     this.setState({ show: false });
   }
 
+  saveAppointment(type) {
+    this.setState({ show: false });
+    // console.log('saving this:');
+    let titlePrefix = '';
+    this.state.visitType === 'consulting'
+      ? (titlePrefix = 'Консультация ')
+      : (titlePrefix = 'Лечение ');
+    let newEvent = {
+      title: titlePrefix + this.props.title,
+      clientId: this.props.clientId,
+      date: this.state.clickedEvent.start,
+      end: this.state.clickedEvent.end,
+      doctorId: this.props.doctorId,
+      visitType: type,
+      approved: true,
+    };
+    this.props.handleEventSelect(newEvent);
+  }
+
   onEventSelect = (start, end) => {
     const events = this.state.events;
 
-    const newEventsSource = events.concat({
-      title: `Event #${events.length}`,
-      start: start.toDate(),
-      end: end.toDate(),
-    });
-
     this.setState({
       clickedEvent: {
-        title: `Event #${events.length}`,
         start: start.toDate(),
         end: end.toDate(),
       },
@@ -133,6 +149,7 @@ export default class Schedule extends Component {
             <NewAppointmentModal
               clickedEvent={this.state.clickedEvent}
               handler={this.closeModal}
+              saver={this.saveAppointment}
             />
           )}
         </div>
@@ -140,3 +157,12 @@ export default class Schedule extends Component {
     );
   }
 }
+
+export default withTracker(props => {
+  const sub = Meteor.subscribe('AllAppointments');
+  return {
+    ready: sub.ready(),
+    appointments: AppointmentsCollection.find({}).fetch(),
+    ...props,
+  };
+})(Schedule);

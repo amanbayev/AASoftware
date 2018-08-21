@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
-import { Bert } from 'meteor/themeteorchef:bert';
-
+import KeyGen from '/imports/modules/generate-key';
 import ClientsCollection from '/imports/api/Clients/Clients';
 
 import { Icon, Menu, Table, Segment } from 'semantic-ui-react';
@@ -12,34 +11,40 @@ class ClientsTable extends Component {
   }
 
   renderClients() {
-    return this.props.clients.map((client, index) => (
-      <Table.Row
-        key={client.number}
-        style={{ cursor: 'pointer' }}
-        onClick={e => {
-          this.props.history.push('/clients/' + client.number);
-        }}
-      >
-        <Table.Cell>{client.number}</Table.Cell>
-        <Table.Cell>{client.lastname}</Table.Cell>
-        <Table.Cell>{client.firstname}</Table.Cell>
-        <Table.Cell>{client.patronimic}</Table.Cell>
-        <Table.Cell>{client.phone}</Table.Cell>
-        <Table.Cell>{client.iin}</Table.Cell>
-        {/* <Table.Cell>{client.lastVisit}</Table.Cell> */}
-      </Table.Row>
-    ));
+    return this.props.clients.map((client, index) => {
+      // console.log('rendering client number ' + client.number);
+      // console.log(KeyGen(client.number));
+      return (
+        <Table.Row
+          key={KeyGen(client.number)}
+          style={{ cursor: 'pointer' }}
+          onClick={e => {
+            // this.props.history.push('/clients/' + client.number);
+            this.props.handler(client);
+          }}
+        >
+          <Table.Cell>{client.number}</Table.Cell>
+          <Table.Cell>{client.lastname}</Table.Cell>
+          <Table.Cell>{client.firstname}</Table.Cell>
+          <Table.Cell>{client.patronimic}</Table.Cell>
+          <Table.Cell>{client.phone}</Table.Cell>
+          <Table.Cell>{client.iin}</Table.Cell>
+          {/* <Table.Cell>{client.lastVisit}</Table.Cell> */}
+        </Table.Row>
+      );
+    });
   }
 
   generateInterimItems() {
     if (this.props.last > 2) {
       let buttons = [];
+      let skip = this.props.skip;
       for (let i = 2; i < this.props.last; i++) buttons.push(i);
       return buttons.map((button, index) => (
         <Menu.Item
           key={index}
           as="a"
-          active={this.props.skip + 1 == button}
+          active={skip + 1 == button}
           onClick={e => this.props.handleSkipChange(button - 1)}
         >
           {button}
@@ -50,6 +55,8 @@ class ClientsTable extends Component {
   }
 
   render() {
+    let skip = this.props.skip;
+    if (skip * 5 >= this.props.total) skip = 0;
     return (
       <Segment>
         <Table celled selectable>
@@ -68,19 +75,18 @@ class ClientsTable extends Component {
           <Table.Footer>
             <Table.Row>
               <Table.HeaderCell colSpan="7">
-                Показываются с{' '}
-                {this.props.total > 0 ? this.props.skip * 5 + 1 : 0} по{' '}
-                {this.props.skip + 1 == this.props.last && this.props.last > 0
+                Показываются с {this.props.total > 0 ? skip * 5 + 1 : 0} по{' '}
+                {skip + 1 == this.props.last && this.props.last > 0
                   ? this.props.total
-                  : (this.props.skip + 1) * 5}{' '}
+                  : (skip + 1) * 5}{' '}
                 из {this.props.total} записей
                 <Menu floated="right" pagination>
-                  {this.props.skip > 0 && (
+                  {skip > 0 && (
                     <Menu.Item
                       as="a"
                       icon
                       onClick={e => {
-                        this.props.handleSkipChange(this.props.skip - 1);
+                        this.props.handleSkipChange(skip - 1);
                       }}
                     >
                       <Icon name="chevron left" />
@@ -89,7 +95,7 @@ class ClientsTable extends Component {
                   {this.props.total > 5 && (
                     <Menu.Item
                       as="a"
-                      active={this.props.skip + 1 == 1}
+                      active={skip + 1 == 1}
                       onClick={e => this.props.handleSkipChange(0)}
                     >
                       1
@@ -98,19 +104,19 @@ class ClientsTable extends Component {
                   {this.generateInterimItems()}
                   <Menu.Item
                     as="a"
-                    active={this.props.skip + 1 == this.props.last}
+                    active={skip + 1 == this.props.last}
                     onClick={e => {
                       this.props.handleSkipChange(this.props.last - 1);
                     }}
                   >
                     {this.props.last}
                   </Menu.Item>
-                  {this.props.skip + 1 < this.props.last && (
+                  {skip + 1 < this.props.last && (
                     <Menu.Item
                       as="a"
                       icon
                       onClick={e => {
-                        this.props.handleSkipChange(this.props.skip + 1);
+                        this.props.handleSkipChange(skip + 1);
                       }}
                     >
                       <Icon name="chevron right" />
@@ -127,9 +133,10 @@ class ClientsTable extends Component {
 }
 
 export default withTracker(props => {
-  const skip = props.skip || 0;
+  let skip = props.skip || 0;
   const filters = props.filters || {};
   const total = ClientsCollection.find(filters).count();
+  if (skip * 5 >= total) skip = 0;
   const subscription = Meteor.subscribe('AllClients');
   return {
     loading: !subscription.ready(),

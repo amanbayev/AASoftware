@@ -43,6 +43,10 @@ Appointments.schema = new SimpleSchema({
     optional: true,
     label: 'Doctor ID',
   },
+  visitType: {
+    type: String,
+    label: 'Visit type',
+  },
   approved: {
     type: Boolean,
     defaultValue: true,

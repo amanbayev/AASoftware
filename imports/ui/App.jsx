@@ -23,6 +23,7 @@ import Naryads from '/imports/ui/Naryads/Naryads';
 
 // START new pages
 import Visit from '/imports/ui/Visit/Visit';
+import NewVisit from '/imports/ui/Schedule/NewVisit';
 import Schedule from '/imports/ui/Schedule/Schedule';
 // END new pages
 
@@ -84,6 +85,7 @@ class PropsWrapper extends Component {
               {/* // new routes */}
               {this.renderAuthenticated('/visit', Visit)}
               {this.renderAuthenticated('/schedule', Schedule)}
+              {this.renderAuthenticated('/newvisit', NewVisit)}
               {/* end new routes */}
               <Route component={NotFound} />
             </Switch>

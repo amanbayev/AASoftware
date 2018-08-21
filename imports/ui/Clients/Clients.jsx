@@ -19,7 +19,12 @@ class Clients extends Component {
       <Switch>
         <Route exact path="/clients/add" component={CreateClient} />
         <Route exact path="/clients/:number" component={ShowClient} />
-        <Route exact path="/clients" component={ClientsSearchTable} />
+        <Route
+          exact
+          path="/clients"
+          component={ClientsSearchTable}
+          {...props}
+        />
       </Switch>
     );
   }
