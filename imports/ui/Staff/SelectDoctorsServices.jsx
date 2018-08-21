@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import { Grid, List, Header, Segment, Search } from 'semantic-ui-react';
 import faker from 'faker';
+import _ from 'lodash';
 
 const ListDoctors = () => (
   <List selection verticalAlign="middle">
@@ -18,27 +19,52 @@ const ListDoctors = () => (
   </List>
 );
 
-const getResults = () =>
-  _.times(5, () => ({
-    title: faker.company.companyName(),
-    description: faker.company.catchPhrase(),
-    image: faker.internet.avatar(),
-    price: faker.finance.amount(0, 100, 2, '$'),
-  }));
-
-const source = _.range(0, 3).reduce(memo => {
-  const name = faker.hacker.noun();
-
-  // eslint-disable-next-line no-param-reassign
-  memo[name] = {
-    name,
-    results: getResults(),
-  };
-
-  return memo;
-}, {});
+const source = {
+  'Doctor A': {
+    name: 'Doctor A',
+    results: [
+      {
+        title: 'Air Flow',
+        description: faker.company.catchPhrase(),
+        image: faker.internet.avatar(),
+        price: '15 000',
+      },
+      {
+        title: 'Cleaning',
+        description: faker.company.catchPhrase(),
+        image: faker.internet.avatar(),
+        price: '12 000',
+      },
+    ],
+  },
+  'Doctor B': {
+    name: 'Doctor B',
+    results: [
+      {
+        title: 'Air Flow',
+        description: faker.company.catchPhrase(),
+        image: faker.internet.avatar(),
+        price: '12 000',
+      },
+      {
+        title: 'Torture',
+        description: faker.company.catchPhrase(),
+        image: faker.internet.avatar(),
+        price: '12 000',
+      },
+    ],
+  },
+};
 
 export default class SelectDoctorsServices extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      results: [],
+      value: '',
+    };
+  }
+
   componentWillMount() {
     this.resetComponent();
   }
@@ -82,15 +108,7 @@ export default class SelectDoctorsServices extends Component {
       <Grid>
         <Grid.Row columns={2}>
           <Grid.Column>
-            <Header sub>Врачи:</Header>
-            <ListDoctors />
-          </Grid.Column>
-          <Grid.Column>
-            <Header sub>Услуги врача:</Header>
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column width={8}>
+            <Header dividing>Врачи:</Header>
             <Search
               category
               loading={isLoading}
@@ -102,18 +120,10 @@ export default class SelectDoctorsServices extends Component {
               value={value}
               {...this.props}
             />
+            <ListDoctors />
           </Grid.Column>
-          <Grid.Column width={8}>
-            <Segment>
-              <Header>State</Header>
-              <pre style={{ overflowX: 'auto' }}>
-                {JSON.stringify(this.state, null, 2)}
-              </pre>
-              <Header>Options</Header>
-              <pre style={{ overflowX: 'auto' }}>
-                {JSON.stringify(source, null, 2)}
-              </pre>
-            </Segment>
+          <Grid.Column>
+            <Header sub>Услуги врача:</Header>
           </Grid.Column>
         </Grid.Row>
       </Grid>
