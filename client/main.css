@@ -48,3 +48,14 @@
   font-weight: normal;
   text-rendering: optimizeLegibility;
 }
+
+/* FULL CALENDAR START */
+.fc-sat {
+  color: darkslateblue;
+  background-color: #f08080 !important;
+}
+.fc-sun {
+  color: darkslateblue;
+  background-color: #f08080 !important;
+}
+/* FULL CALENDAR END */

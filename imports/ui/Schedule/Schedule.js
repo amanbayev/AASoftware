@@ -4,6 +4,8 @@ import { Grid } from 'semantic-ui-react';
 
 import { FullCalendar } from 'meteor/jss:fullcalendar-react';
 
+import NewAppointmentModal from './NewAppointmentModal';
+
 export default class Schedule extends Component {
   constructor(props) {
     super(props);
@@ -46,18 +48,65 @@ export default class Schedule extends Component {
       defaultDate: new Date(),
       timezone: 'local',
 
+      contentHeight: 400,
+
+      monthNames: [
+        'Январь',
+        'Февраль',
+        'Март',
+        'Апрель',
+        'Май',
+        'Июнь',
+        'Июль',
+        'Август',
+        'Сентябрь',
+        'Октябрь',
+        'Ноябрь',
+        'Декабрь',
+      ],
+      monthNamesShort: [
+        'Янв',
+        'Фев',
+        'Мар',
+        'Апр',
+        'Май',
+        'Июн',
+        'Июл',
+        'Авг',
+        'Сент',
+        'Окт',
+        'Ноя',
+        'Дек',
+      ],
+
+      dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+      dayNames: [
+        'Воскресенье',
+        'Понедельник',
+        'Вторник',
+        'Среда',
+        'Четверг',
+        'Пятница',
+        'Суббота',
+      ],
+      views: {
+        agenda: {
+          timeFormat: 'H:mm',
+        },
+      },
+      slotLabelFormat: 'H:mm',
+      timeFormat: 'H:mm',
+      allDaySlot: false,
       editable: true,
       droppable: true,
       selectable: true,
       minTime: '09:00',
       maxTime: '20:00',
-
+      firstDay: 1,
       slotDuration: '00:30',
       scrollTime: '09:00',
       columnFormat: 'ddd DD/MM',
       displayTime: true,
-      firstDay: 1,
-      lang: 'ru',
       select: this.onEventSelect,
 
       // please, use funciton events source for reactivity support
@@ -70,6 +119,7 @@ export default class Schedule extends Component {
       <div className="row">
         <div className="calendar">
           <FullCalendar options={calendarOptions} />
+          <NewAppointmentModal />
         </div>
       </div>
     );
