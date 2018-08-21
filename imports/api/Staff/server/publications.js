@@ -3,6 +3,20 @@ import { check } from 'meteor/check';
 import StaffCollection from '../Staff';
 import SpecialitiesCollection from '../Specialities';
 import CabinetsCollection from '../Cabinets';
+import AppointmentsCollection from '../Appointments';
+
+Meteor.publish('AllAppointments', function() {
+  return AppointmentsCollection.find();
+});
+
+Meteor.publish('AppointmentsInRage', function(startDate, endDate) {
+  return AppointmentsCollection.find({
+    date: {
+      $gte: startDate,
+      $lt: endDate,
+    },
+  });
+});
 
 Meteor.publish('AllStaff', function Staff() {
   return StaffCollection.find();

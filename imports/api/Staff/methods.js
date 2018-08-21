@@ -4,11 +4,47 @@ import { check } from 'meteor/check';
 import Staff from './Staff';
 import Specialities from './Specialities';
 import Cabinets from './Cabinets';
+import Appointments from './Appointments';
 
 import handleMethodException from '../../modules/handle-method-exception';
 import rateLimit from '../../modules/rate-limit';
 
 Meteor.methods({
+  'Appointment.insert': function(doc) {
+    check(doc, {
+      clientId: String,
+      date: Date,
+      doctorId: String,
+    });
+
+    try {
+      return Appointments.insert(doc);
+    } catch (exc) {
+      handleMethodException(exc);
+    }
+  },
+  'Appointment.remove': function(docId) {
+    check(docId, String);
+    try {
+      return Appointments.remove(docId);
+    } catch (err) {
+      handleMethodException(err);
+    }
+  },
+  'Appointment.update': function(newDoc) {
+    check(newDoc, {
+      clientId: String,
+      date: Date,
+      doctorId: String,
+    });
+
+    try {
+      Appointments.update(newDoc._id, { $set: newDoc });
+      return newDoc._id;
+    } catch (err) {
+      handleMethodException(err);
+    }
+  },
   'Staff.insert': function StaffInsert(doc) {
     check(doc, {
       lastname: String,
@@ -114,6 +150,9 @@ rateLimit({
     'Cabinet.remove',
     'Speciality.insert',
     'Speciality.remove',
+    'Appointment.insert',
+    'Appointment.update',
+    'Appointment.remove',
   ],
   limit: 5,
   timeRange: 1000,

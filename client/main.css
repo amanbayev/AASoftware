@@ -59,3 +59,9 @@
   background-color: #f08080 !important;
 }
 /* FULL CALENDAR END */
+
+/* MODAL NOT CENTERED WORKAROUND START */
+.ui.page.modals.transition.visible {
+  display: flex !important;
+}
+/* MODAL NOT CENTERED WORKAROUND END */

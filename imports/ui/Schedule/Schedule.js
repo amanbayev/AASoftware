@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import Calendar from 'react-calendar';
-import { Grid } from 'semantic-ui-react';
 
 import { FullCalendar } from 'meteor/jss:fullcalendar-react';
 
@@ -18,9 +16,16 @@ export default class Schedule extends Component {
           end: new Date(Date.now + 30 * 60 * 1000),
         },
       ],
+      clickedEvent: {},
+      show: false,
     };
     moment.locale('ru');
     this.onEventSelect = this.onEventSelect.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+  }
+
+  closeModal() {
+    this.setState({ show: false });
   }
 
   onEventSelect = (start, end) => {
@@ -33,7 +38,12 @@ export default class Schedule extends Component {
     });
 
     this.setState({
-      events: newEventsSource,
+      clickedEvent: {
+        title: `Event #${events.length}`,
+        start: start.toDate(),
+        end: end.toDate(),
+      },
+      show: true,
     });
   };
 
@@ -119,7 +129,12 @@ export default class Schedule extends Component {
       <div className="row">
         <div className="calendar">
           <FullCalendar options={calendarOptions} />
-          <NewAppointmentModal />
+          {this.state.show && (
+            <NewAppointmentModal
+              clickedEvent={this.state.clickedEvent}
+              handler={this.closeModal}
+            />
+          )}
         </div>
       </div>
     );
